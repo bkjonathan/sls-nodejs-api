@@ -6,6 +6,8 @@ service: sls-nodejs-api
 provider:
   name: aws
   runtime: nodejs22.x
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
   # Uncomment to easily set up a custom domain. Read the docs for more details:
   # https://www.serverless.com/framework/docs/providers/aws/guide/domains
   # domain: api.example.com
@@ -18,3 +20,4 @@ functions:
 
 plugins:
   - serverless-offline
+  - serverless-dotenv-plugin
