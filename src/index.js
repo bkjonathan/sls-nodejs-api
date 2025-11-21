@@ -1,6 +1,12 @@
 const serverless = require("serverless-http");
 const express = require("express");
+const { neon }= require("@neondatabase/serverless");
+
 const app = express();
+
+function dbClient() {
+  return  neon(process.env.DATABASE_URL);
+}
 
 app.get("/", (req, res, next) => {
   return res.status(200).json({

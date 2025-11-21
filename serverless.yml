@@ -2,6 +2,7 @@
 org: thomasbkk
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: sls-nodejs-api
+useDotenv: true
 
 provider:
   name: aws
