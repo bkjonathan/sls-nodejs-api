@@ -2,6 +2,9 @@
   "name": "sls-nodejs-api",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "dev": "serverless offline --stage dev"
+  },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
     "drizzle-orm": "^0.44.7",
