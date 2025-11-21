@@ -2,8 +2,12 @@
   "name": "sls-nodejs-api",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "dev": "serverless offline --stage dev"
+    "dev": "serverless offline --stage dev",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -13,6 +17,8 @@
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.7",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
     "serverless-dotenv-plugin": "^6.0.0",
     "serverless-offline": "^14.4.0"
   }

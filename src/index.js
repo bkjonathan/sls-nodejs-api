@@ -1,27 +1,30 @@
-const serverless = require("serverless-http");
-const express = require("express");
-const { neon }= require("@neondatabase/serverless");
+import serverless from "serverless-http";
+import express from "express";
+import { neon } from "@neondatabase/serverless";
 
 const app = express();
 
-function dbClient() {
-  return  neon(process.env.DATABASE_URL);
+async function dbClient() {
+  return neon(process.env.DATABASE_URL);
 }
 
-app.get("/", (req, res, next) => {
+app.get("/", async (req, res, _next) => {
+  const sql = await dbClient();
+  const [results] = await sql`select now();`
   return res.status(200).json({
     message: "Hello from root!",
     database: process.env.DATABASE_URL,
+    results
   });
 });
 
-app.get("/hello", (req, res, next) => {
+app.get("/hello", (req, res, _next) => {
   return res.status(200).json({
     message: "Hello from path!",
   });
 });
 
-app.use((req, res, next) => {
+app.use((req, res, _next) => {
   return res.status(404).json({
     error: "Not Found",
   });
@@ -30,4 +33,4 @@ app.use((req, res, next) => {
 // Server Full Stack
 // app.listen(3000, () => console.log("Server is running on port 3000"));
 
-exports.handler = serverless(app);
+export const handler = serverless(app);
