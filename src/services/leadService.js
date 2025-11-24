@@ -1,39 +1,26 @@
-import leadRepository from "../repositories/leadRepository.js";
+import * as leadRepository from "../repositories/leadRepository.js";
+import { NotFoundError } from "../utils/errors.js";
 
-class LeadService {
-  async createLead(leadData) {
-    // Validate input
-    if (!leadData.email) {
-      throw new Error("Email is required");
-    }
+export const createLead = async (leadData) => {
+  // Validation is now handled by Zod in the route middleware
+  // Only business logic here
+  const lead = await leadRepository.create({
+    email: leadData.email,
+    description: leadData.description || null,
+  });
 
-    // You can add more business logic here (e.g., email validation, duplicate checks)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(leadData.email)) {
-      throw new Error("Invalid email format");
-    }
+  return lead;
+};
 
-    // Create lead via repository
-    const lead = await leadRepository.create({
-      email: leadData.email,
-      description: leadData.description || null,
-    });
+export const getAllLeads = async () => {
+  const leads = await leadRepository.findAll();
+  return leads;
+};
 
-    return lead;
+export const getLeadById = async (id) => {
+  const lead = await leadRepository.findById(id);
+  if (!lead) {
+    throw new NotFoundError("Lead not found");
   }
-
-  async getAllLeads() {
-    const leads = await leadRepository.findAll();
-    return leads;
-  }
-
-  async getLeadById(id) {
-    const lead = await leadRepository.findById(id);
-    if (!lead) {
-      throw new Error("Lead not found");
-    }
-    return lead;
-  }
-}
-
-export default new LeadService();
+  return lead;
+};

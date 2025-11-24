@@ -17,7 +17,8 @@
     "@neondatabase/serverless": "^1.0.2",
     "drizzle-orm": "^0.44.7",
     "express": "^4.19.2",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.7",
