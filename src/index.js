@@ -1,36 +1,22 @@
 import serverless from "serverless-http";
 import express from "express";
-import { neon } from "@neondatabase/serverless";
+import leadRoutes from "./routes/leadRoutes.js";
 
 const app = express();
 
-async function dbClient() {
-  return neon(process.env.DATABASE_URL);
-}
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async (req, res, _next) => {
-  const sql = await dbClient();
-  const [results] = await sql`select now();`
-  return res.status(200).json({
-    message: "Hello from root!",
-    database: process.env.DATABASE_URL,
-    results
-  });
-});
+// API Routes
+app.use("/api/leads", leadRoutes);
 
-app.get("/hello", (req, res, _next) => {
-  return res.status(200).json({
-    message: "Hello from path!",
-  });
-});
-
+// 404 Handler
 app.use((req, res, _next) => {
   return res.status(404).json({
+    success: false,
     error: "Not Found",
   });
 });
-
-// Server Full Stack
-// app.listen(3000, () => console.log("Server is running on port 3000"));
 
 export const handler = serverless(app);

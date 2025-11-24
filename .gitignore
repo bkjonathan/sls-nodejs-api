@@ -1,4 +1,5 @@
 node_modules
+db/migrations
 .serverless
 .idea
 .env
